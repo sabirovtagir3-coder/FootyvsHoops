@@ -1,0 +1,378 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #0b0e14;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  color: #fff;
+}
+
+#game-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+
+#webgl-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+#ui-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.screen {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(10, 14, 23, 0.85);
+  backdrop-filter: blur(8px);
+  pointer-events: auto;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.flex-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-box {
+  width: 90%;
+  max-width: 420px;
+  background: #141a29;
+  border: 1px solid #232d45;
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+}
+
+.emblem {
+  max-width: 90px;
+  max-height: 90px;
+  margin-bottom: 12px;
+  object-fit: contain;
+}
+
+.glow-title {
+  font-size: 1.8rem;
+  letter-spacing: 2px;
+  font-weight: 900;
+  color: #fff;
+  text-shadow: 0 0 16px rgba(0, 225, 255, 0.5);
+}
+
+.glow-title .vs {
+  color: #ff3366;
+}
+
+.subtitle {
+  color: #8c9cb8;
+  font-size: 0.95rem;
+  margin-top: 6px;
+  margin-bottom: 24px;
+}
+
+.btn-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.1s ease;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #00d2ff 0%, #0066ff 100%);
+  color: #fff;
+  box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+}
+
+.btn.secondary {
+  background: #232d45;
+  color: #b5c4de;
+}
+
+.select-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.side-card {
+  background: #1b2338;
+  border: 2px solid #2c3859;
+  border-radius: 16px;
+  padding: 20px 10px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #fff;
+}
+
+.side-card .icon {
+  font-size: 2.4rem;
+}
+
+.side-card .name {
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.side-card .desc {
+  font-size: 0.75rem;
+  color: #7b8fae;
+}
+
+.side-card.footy:active {
+  border-color: #00ff88;
+}
+
+.side-card.hoops:active {
+  border-color: #ff9900;
+}
+
+/* VS Screen */
+.vs-banner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.vs-core {
+  font-size: 2.6rem;
+  color: #ff3366;
+  text-shadow: 0 0 20px rgba(255, 51, 102, 0.8);
+}
+
+.vs-side {
+  padding: 10px 20px;
+  border-radius: 12px;
+  background: #172033;
+}
+
+/* HUD */
+#hud {
+  position: absolute;
+  top: env(safe-area-inset-top, 12px);
+  left: 0;
+  width: 100%;
+  pointer-events: none;
+  padding: 12px 16px;
+  box-sizing: border-box;
+}
+
+.hud-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 600px;
+  margin: 0 auto;
+  background: rgba(18, 24, 38, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  padding: 8px 16px;
+  backdrop-filter: blur(4px);
+}
+
+.hud-item {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #8c9cb8;
+}
+
+.hud-scoreboard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 800;
+}
+
+.score-divider {
+  color: #ff3366;
+}
+
+.btn-icon {
+  pointer-events: auto;
+  background: #25314d;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+/* Touch Controls */
+#touch-controls {
+  position: absolute;
+  bottom: env(safe-area-inset-bottom, 20px);
+  left: 0;
+  width: 100%;
+  height: 180px;
+  pointer-events: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 0 24px;
+  box-sizing: border-box;
+}
+
+#joystick-zone {
+  width: 130px;
+  height: 130px;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#joystick-base {
+  width: 110px;
+  height: 110px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  position: relative;
+}
+
+#joystick-knob {
+  width: 44px;
+  height: 44px;
+  background: #00d2ff;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 12px rgba(0, 210, 255, 0.6);
+}
+
+#action-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: auto;
+}
+
+.touch-btn {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: none;
+  color: #fff;
+  font-weight: 800;
+  font-size: 0.75rem;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+
+.touch-btn.shoot {
+  background: linear-gradient(135deg, #ff3366, #ff6b3d);
+}
+
+.touch-btn.turbo {
+  background: linear-gradient(135deg, #ffcc00, #ff9900);
+}
+
+.touch-btn:active {
+  transform: scale(0.9);
+}
+
+/* Modal */
+.modal {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: auto;
+  z-index: 20;
+}
+
+.modal-box {
+  background: #141a29;
+  border: 1px solid #232d45;
+  border-radius: 16px;
+  padding: 24px;
+  width: 88%;
+  max-width: 380px;
+  color: #d1d9e6;
+  font-size: 0.9rem;
+}
+
+.modal-box h2 {
+  color: #fff;
+  margin-bottom: 12px;
+}
+
+.modal-box ul {
+  margin: 12px 0;
+  padding-left: 20px;
+  line-height: 1.5;
+}
+
+.modal-box p {
+  margin-bottom: 12px;
+}
+
+.transition-box {
+  text-align: center;
+  animation: fadeInOut 2s ease forwards;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: scale(0.9); }
+  20% { opacity: 1; transform: scale(1); }
+  80% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.05); }
+}
